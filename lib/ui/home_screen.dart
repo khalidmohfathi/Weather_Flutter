@@ -65,15 +65,18 @@ class _HomePageState extends State<HomePage> {
                                   .constants.value.linearGradientBlueDarkMode
                               : HomeController
                                   .constants.value.linearGradientBlue,
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //     color: HomeController.constants.value.primaryColor
-                          //         .withOpacity(.5),
-                          //     spreadRadius: 5,
-                          //     blurRadius: 7,
-                          //     offset: const Offset(0, 3),
-                          //   ),
-                          // ],
+                          boxShadow: [
+                            !controller.isDarkMode.value
+                                ? BoxShadow(
+                                    color: HomeController
+                                        .constants.value.primaryColor
+                                        .withOpacity(.5),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: const Offset(0, 3),
+                                  )
+                                : const BoxShadow()
+                          ],
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Column(

@@ -62,9 +62,8 @@ class _DetailPageState extends State<DetailPage> {
     }
 
     return Scaffold(
-      backgroundColor: widget.isDarkMode
-          ? Colors.black
-          : _constants.primaryColor,
+      backgroundColor:
+          widget.isDarkMode ? Colors.black : _constants.primaryColor,
       appBar: AppBar(
         iconTheme: IconThemeData(
             color: widget.isDarkMode ? Colors.white : Colors.black),
@@ -74,9 +73,8 @@ class _DetailPageState extends State<DetailPage> {
               TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black),
         ),
         centerTitle: true,
-        backgroundColor: widget.isDarkMode
-            ? Colors.black
-            : _constants.primaryColor,
+        backgroundColor:
+            widget.isDarkMode ? Colors.black : _constants.primaryColor,
         elevation: 0.0,
       ),
       body: Stack(
@@ -117,14 +115,16 @@ class _DetailPageState extends State<DetailPage> {
                                   Color(0xff6696f5),
                                 ],
                               ),
-                        // boxShadow: [
-                        //   BoxShadow(
-                        //     color: Colors.blue.withOpacity(.1),
-                        //     offset: const Offset(0, 25),
-                        //     blurRadius: 3,
-                        //     spreadRadius: -10,
-                        //   ),
-                        // ],
+                        boxShadow: [
+                          !widget.isDarkMode
+                              ? BoxShadow(
+                                  color: Colors.blue.withOpacity(.1),
+                                  offset: const Offset(0, 25),
+                                  blurRadius: 3,
+                                  spreadRadius: -10,
+                                )
+                              : const BoxShadow()
+                        ],
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Stack(
