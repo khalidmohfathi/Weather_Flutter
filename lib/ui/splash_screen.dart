@@ -17,8 +17,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
-      backgroundColor: const Color.fromARGB(255, 144, 163, 211),
-      duration: 3000,
+      backgroundColor: const Color(0xff6b9dfc),
+      duration: 1000,
       splash: Center(
         child: LottieBuilder.asset(
           'assets/Animation.json',

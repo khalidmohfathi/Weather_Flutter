@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:weather/components/hourly_forecast.dart';
 import 'package:weather/components/weather_item.dart';
-import 'package:weather/ui/detail_screen.dart';
+import 'package:weather/ui/details_screen.dart';
 import '../controllers/home_controller.dart';
 
 class HomePage extends StatefulWidget {
@@ -27,8 +27,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: SystemUiOverlay.values);
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: SystemUiOverlay.values,
+    );
 
     Size size = MediaQuery.of(context).size;
 
@@ -37,7 +39,9 @@ class _HomePageState extends State<HomePage> {
         width: size.width,
         height: size.height,
         padding: const EdgeInsets.only(top: 50, left: 10, right: 10),
-        color: HomeController.constants.value.primaryColor.withOpacity(.1),
+        color: !controller.isDarkMode.value
+            ? HomeController.constants.value.primaryColor.withOpacity(.1)
+            : HomeController.constants.value.blackColor,
         child: Obx(
           () {
             return controller.isLoading.value
@@ -51,20 +55,25 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Container(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 10),
+                          vertical: 10,
+                          horizontal: 10,
+                        ),
                         height: size.height * .7,
                         decoration: BoxDecoration(
-                          gradient:
-                              HomeController.constants.value.linearGradientBlue,
-                          boxShadow: [
-                            BoxShadow(
-                              color: HomeController.constants.value.primaryColor
-                                  .withOpacity(.5),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset: const Offset(0, 3),
-                            ),
-                          ],
+                          gradient: controller.isDarkMode.value
+                              ? HomeController
+                                  .constants.value.linearGradientBlueDarkMode
+                              : HomeController
+                                  .constants.value.linearGradientBlue,
+                          // boxShadow: [
+                          //   BoxShadow(
+                          //     color: HomeController.constants.value.primaryColor
+                          //         .withOpacity(.5),
+                          //     spreadRadius: 5,
+                          //     blurRadius: 7,
+                          //     offset: const Offset(0, 3),
+                          //   ),
+                          // ],
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Column(
@@ -117,6 +126,11 @@ class _HomePageState extends State<HomePage> {
                                       onPressed: () {
                                         _cityController.clear();
                                         showMaterialModalBottomSheet(
+                                          backgroundColor:
+                                              controller.isDarkMode.value
+                                                  ? HomeController.constants
+                                                      .value.blackColor
+                                                  : Colors.white,
                                           context: context,
                                           builder: (context) =>
                                               SingleChildScrollView(
@@ -176,6 +190,12 @@ class _HomePageState extends State<HomePage> {
                                                               .primaryColor,
                                                         ),
                                                       ),
+                                                      hintStyle: TextStyle(
+                                                          color: controller
+                                                                  .isDarkMode
+                                                                  .value
+                                                              ? Colors.white
+                                                              : Colors.black),
                                                       hintText:
                                                           "Search City e.g. Cairo",
                                                       focusedBorder:
@@ -318,10 +338,13 @@ class _HomePageState extends State<HomePage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
+                                Text(
                                   'Today',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
+                                    color: controller.isDarkMode.value
+                                        ? Colors.white
+                                        : Colors.black,
                                     fontSize: 20,
                                   ),
                                 ),
@@ -333,6 +356,7 @@ class _HomePageState extends State<HomePage> {
                                         dailyForecastWeather:
                                             controller.dailyWeatherForecast,
                                         isCelsius: controller.isCelsius.value,
+                                        isDarkMode: controller.isDarkMode.value,
                                       ),
                                     ),
                                   ),
@@ -363,6 +387,7 @@ class _HomePageState extends State<HomePage> {
                                     hourlyWeatherForecast:
                                         controller.hourlyWeatherForecast[index],
                                     isCelsius: controller.isCelsius.value,
+                                    isDarkMode: controller.isDarkMode.value,
                                   );
                                 },
                               ),

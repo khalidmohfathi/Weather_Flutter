@@ -7,9 +7,14 @@ import 'package:weather/constants.dart';
 class DetailPage extends StatefulWidget {
   final dynamic dailyForecastWeather;
   final bool isCelsius;
+  final bool isDarkMode;
 
-  const DetailPage(
-      {super.key, this.dailyForecastWeather, required this.isCelsius});
+  const DetailPage({
+    super.key,
+    this.dailyForecastWeather,
+    required this.isCelsius,
+    required this.isDarkMode,
+  });
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -57,11 +62,21 @@ class _DetailPageState extends State<DetailPage> {
     }
 
     return Scaffold(
-      backgroundColor: _constants.primaryColor,
+      backgroundColor: widget.isDarkMode
+          ? Colors.black
+          : _constants.primaryColor,
       appBar: AppBar(
-        title: const Text("Forecasts"),
+        iconTheme: IconThemeData(
+            color: widget.isDarkMode ? Colors.white : Colors.black),
+        title: Text(
+          "Forecasts",
+          style:
+              TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black),
+        ),
         centerTitle: true,
-        backgroundColor: _constants.primaryColor,
+        backgroundColor: widget.isDarkMode
+            ? Colors.black
+            : _constants.primaryColor,
         elevation: 0.0,
       ),
       body: Stack(
@@ -74,9 +89,9 @@ class _DetailPageState extends State<DetailPage> {
             child: Container(
               height: size.height * .75,
               width: size.width,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                color: widget.isDarkMode ? _constants.blackColor : Colors.white,
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(50),
                   topRight: Radius.circular(50),
                 ),
@@ -92,22 +107,24 @@ class _DetailPageState extends State<DetailPage> {
                       height: 280,
                       width: size.width * .7,
                       decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.center,
-                          colors: [
-                            Color(0xffa9c1f5),
-                            Color(0xff6696f5),
-                          ],
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.blue.withOpacity(.1),
-                            offset: const Offset(0, 25),
-                            blurRadius: 3,
-                            spreadRadius: -10,
-                          ),
-                        ],
+                        gradient: widget.isDarkMode
+                            ? _constants.linearGradientBlueDarkMode
+                            : const LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.center,
+                                colors: [
+                                  Color(0xffa9c1f5),
+                                  Color(0xff6696f5),
+                                ],
+                              ),
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     color: Colors.blue.withOpacity(.1),
+                        //     offset: const Offset(0, 25),
+                        //     blurRadius: 3,
+                        //     spreadRadius: -10,
+                        //   ),
+                        // ],
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Stack(
@@ -209,8 +226,10 @@ class _DetailPageState extends State<DetailPage> {
                                 itemCount: weatherData.length,
                                 itemBuilder: (context, index) {
                                   return DetailsCard(
-                                    getForecastWeather: getForecastWeather(index),
+                                    getForecastWeather:
+                                        getForecastWeather(index),
                                     isCelsius: widget.isCelsius,
+                                    isDarkMode: widget.isDarkMode,
                                   );
                                 },
                               ),

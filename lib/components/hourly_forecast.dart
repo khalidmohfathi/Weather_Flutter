@@ -5,12 +5,14 @@ import 'package:weather/constants.dart';
 class HourlyForecast extends StatelessWidget {
   final dynamic hourlyWeatherForecast;
   final bool isCelsius;
+  final bool isDarkMode;
   final _constants = Constants();
 
   HourlyForecast({
     super.key,
     this.hourlyWeatherForecast,
     required this.isCelsius,
+    required this.isDarkMode,
   });
 
   @override
@@ -38,7 +40,9 @@ class HourlyForecast extends StatelessWidget {
       decoration: BoxDecoration(
         color: currentHour == forecastHour
             ? Colors.white
-            : _constants.primaryColor,
+            : isDarkMode
+                ? _constants.primaryColorDarkMode
+                : _constants.primaryColor,
         borderRadius: const BorderRadius.all(
           Radius.circular(50),
         ),

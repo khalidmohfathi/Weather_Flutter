@@ -2,17 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:weather/constants.dart';
 
 class DetailsCard extends StatelessWidget {
-
   final dynamic getForecastWeather;
   final bool isCelsius;
+  final bool isDarkMode;
   final _constants = Constants();
 
   DetailsCard(
-      {super.key, required this.getForecastWeather, required this.isCelsius});
+      {super.key,
+      required this.getForecastWeather,
+      required this.isCelsius,
+      required this.isDarkMode});
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: isDarkMode ? Colors.black : Colors.white,
       elevation: 3.0,
       margin: const EdgeInsets.only(bottom: 20),
       child: Padding(
@@ -69,7 +73,9 @@ class DetailsCard extends StatelessWidget {
                               : getForecastWeather["maxTemperatureF"]
                                   .toString(),
                           style: TextStyle(
-                            color: _constants.blackColor,
+                            color: isDarkMode
+                                ? Colors.white
+                                : _constants.blackColor,
                             fontSize: 30,
                             fontWeight: FontWeight.w600,
                           ),
@@ -77,7 +83,9 @@ class DetailsCard extends StatelessWidget {
                         Text(
                           'o',
                           style: TextStyle(
-                            color: _constants.blackColor,
+                            color: isDarkMode
+                                ? Colors.white
+                                : _constants.blackColor,
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
                           ),
